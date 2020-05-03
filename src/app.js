@@ -21,7 +21,7 @@ app.use(
 app.use(json());
 app.use(logger());
 app.use(require("koa-static")(__dirname + "/public"));
-
+//注册views文件夹为主要视图
 app.use(
   views(__dirname + "/views", {
     extension: "ejs",

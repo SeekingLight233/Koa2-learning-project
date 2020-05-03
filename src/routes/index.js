@@ -1,8 +1,28 @@
 const router = require("koa-router")();
 
 router.get("/", async (ctx, next) => {
+  //将变量传递到模板中
   await ctx.render("index", {
     title: "Hello Koa 2!",
+    isMe: true,
+    blogList: [
+      {
+        id: 1,
+        title: "title1",
+      },
+      {
+        id: 2,
+        title: "title2",
+      },
+      {
+        id: 3,
+        title: "title3",
+      },
+      {
+        id: 4,
+        title: "title4",
+      },
+    ],
   });
 });
 
