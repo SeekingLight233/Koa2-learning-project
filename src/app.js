@@ -8,12 +8,22 @@ const logger = require("koa-logger")
 const session = require("koa-generic-session")
 const redisStore = require("koa-redis")
 const { REDIS_CONF } = require("./conf/db")
+const { isProd } = require("./utils/env")
 
+//路由
+const errorViewRouter = require("./routes/view/error")
 const index = require("./routes/index")
 const users = require("./routes/users")
 
-// error handler
-onerror(app)
+// error 页面处理
+let onerrorConf = {}
+if (isProd) {
+  onerrorConf = {
+    redirect: "/error",
+  }
+}
+//problem:这里加上配置后并不会跳转到自定义error页面，而是无限重定向
+onerror(app, onerrorConf)
 
 // middlewares
 app.use(
@@ -30,6 +40,7 @@ app.use(
     extension: "ejs",
   })
 )
+
 //session配置
 app.keys = ["password123"]
 app.use(
@@ -47,17 +58,11 @@ app.use(
   })
 )
 
-// logger
-// app.use(async (ctx, next) => {
-//   const start = new Date();
-//   await next();
-//   const ms = new Date() - start;
-//   console.log(`${ctx.method} ${ctx.url} - ${ms}ms`);
-// });
-
-// routes
+// 路由注册
 app.use(index.routes(), index.allowedMethods())
 app.use(users.routes(), users.allowedMethods())
+//注意404路由要注册到最底下
+app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
 // error-handling
 app.on("error", (err, ctx) => {
