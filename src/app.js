@@ -1,37 +1,37 @@
-const Koa = require("koa");
-const app = new Koa();
-const views = require("koa-views");
-const json = require("koa-json");
-const onerror = require("koa-onerror");
-const bodyparser = require("koa-bodyparser");
-const logger = require("koa-logger");
-const session = require("koa-generic-session");
-const redisStore = require("koa-redis");
-const { REDIS_CONF } = require("./conf/db");
+const Koa = require("koa")
+const app = new Koa()
+const views = require("koa-views")
+const json = require("koa-json")
+const onerror = require("koa-onerror")
+const bodyparser = require("koa-bodyparser")
+const logger = require("koa-logger")
+const session = require("koa-generic-session")
+const redisStore = require("koa-redis")
+const { REDIS_CONF } = require("./conf/db")
 
-const index = require("./routes/index");
-const users = require("./routes/users");
+const index = require("./routes/index")
+const users = require("./routes/users")
 
 // error handler
-onerror(app);
+onerror(app)
 
 // middlewares
 app.use(
   bodyparser({
     enableTypes: ["json", "form", "text"],
   })
-);
-app.use(json());
-app.use(logger());
-app.use(require("koa-static")(__dirname + "/public"));
+)
+app.use(json())
+app.use(logger())
+app.use(require("koa-static")(__dirname + "/public"))
 //注册views文件夹为主要视图
 app.use(
   views(__dirname + "/views", {
     extension: "ejs",
   })
-);
+)
 //session配置
-app.keys = ["password123"];
+app.keys = ["password123"]
 app.use(
   session({
     key: "weibo.sid", //cookie name默认是'koa.sid'
@@ -45,7 +45,7 @@ app.use(
       all: `${REDIS_CONF.host}:${REDIS_CONF.port}`,
     }),
   })
-);
+)
 
 // logger
 // app.use(async (ctx, next) => {
@@ -56,12 +56,12 @@ app.use(
 // });
 
 // routes
-app.use(index.routes(), index.allowedMethods());
-app.use(users.routes(), users.allowedMethods());
+app.use(index.routes(), index.allowedMethods())
+app.use(users.routes(), users.allowedMethods())
 
 // error-handling
 app.on("error", (err, ctx) => {
-  console.error("server error", err, ctx);
-});
+  console.error("server error", err, ctx)
+})
 
-module.exports = app;
+module.exports = app

@@ -3,15 +3,15 @@
  * @author SeekingLight
  */
 
-const redis = require("redis");
-const { REDIS_CONF } = require("../conf/db");
+const redis = require("redis")
+const { REDIS_CONF } = require("../conf/db")
 
 //创建一个客户端
-const redisClient = redis.createClient(REDIS_CONF.port, REDIS_CONF.host);
+const redisClient = redis.createClient(REDIS_CONF.port, REDIS_CONF.host)
 
 redisClient.on("error", (err) => {
-  console.error("redis error: ", err);
-});
+  console.error("redis error: ", err)
+})
 
 /**
  * redis set
@@ -21,10 +21,10 @@ redisClient.on("error", (err) => {
  */
 function set(key, val, timeout = 60 * 60) {
   if (typeof val === "object") {
-    val = JSON.stringify(val);
+    val = JSON.stringify(val)
   }
-  redisClient.set(key, val);
-  redisClient.expire(key, timeout);
+  redisClient.set(key, val)
+  redisClient.expire(key, timeout)
 }
 /**
  * redis get
@@ -34,24 +34,24 @@ function get(key) {
   const promise = new Promise((resolve, reject) => {
     redisClient.get(key, (err, val) => {
       if (err) {
-        reject(err);
-        return;
+        reject(err)
+        return
       }
       if (val == null) {
-        resolve(null);
-        return;
+        resolve(null)
+        return
       }
       //尝试JSON化一下
       try {
-        resolve(JSON.parse(val));
+        resolve(JSON.parse(val))
       } catch (ex) {
-        resolve(val);
+        resolve(val)
       }
-    });
-  });
-  return promise;
+    })
+  })
+  return promise
 }
 module.exports = {
   set,
   get,
-};
+}

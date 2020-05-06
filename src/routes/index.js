@@ -1,4 +1,4 @@
-const router = require("koa-router")();
+const router = require("koa-router")()
 
 router.get("/", async (ctx, next) => {
   //将变量传递到模板中
@@ -23,8 +23,8 @@ router.get("/", async (ctx, next) => {
         title: "title4",
       },
     ],
-  });
-});
+  })
+})
 
 router.get("/json", async (ctx, next) => {
   // const session = ctx.session;
@@ -36,23 +36,23 @@ router.get("/json", async (ctx, next) => {
   ctx.body = {
     title: "koa2 json",
     // viewNum: session.viewNum,
-  };
-});
+  }
+})
 //获取动态用户参数
 router.get("/profile/:userName", async (ctx, next) => {
-  const { userName } = ctx.params;
+  const { userName } = ctx.params
   ctx.body = {
     title: "用户的profile页面",
     userName,
-  };
-});
+  }
+})
 
 router.get("/loadMore/:userName/:pageIndex", async (ctx, next) => {
-  const { userName, pageIndex } = ctx.params;
+  const { userName, pageIndex } = ctx.params
   ctx.body = {
     title: "用户的加载更多页面",
     userName,
     pageIndex,
-  };
-});
-module.exports = router;
+  }
+})
+module.exports = router
