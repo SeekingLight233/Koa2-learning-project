@@ -1,3 +1,7 @@
+/**
+ * @description routes中主要做一些路由相关的内容，包括视图层的路由和api
+ * @author SeekingLight
+ */
 const router = require("koa-router")()
 
 router.get("/", async (ctx, next) => {

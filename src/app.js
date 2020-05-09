@@ -13,8 +13,8 @@ const { isProd } = require("./utils/env")
 //路由
 const errorViewRouter = require("./routes/view/error")
 const index = require("./routes/index")
-const users = require("./routes/users")
-
+const userViewRouter = require("./routes/view/user")
+const userAPIRouter = require("./routes/api/user")
 // error 页面处理
 let onerrorConf = {}
 if (isProd) {
@@ -60,7 +60,8 @@ app.use(
 
 // 路由注册
 app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
+app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
+app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 //注意404路由要注册到最底下
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
