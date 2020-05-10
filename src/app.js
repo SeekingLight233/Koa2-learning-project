@@ -7,8 +7,10 @@ const bodyparser = require("koa-bodyparser")
 const logger = require("koa-logger")
 const session = require("koa-generic-session")
 const redisStore = require("koa-redis")
+
 const { REDIS_CONF } = require("./conf/db")
 const { isProd } = require("./utils/env")
+const { SESSON_SECRET_KEY } = require("./conf/constant")
 
 //路由
 const errorViewRouter = require("./routes/view/error")
@@ -42,7 +44,7 @@ app.use(
 )
 
 //session配置
-app.keys = ["password123"]
+app.keys = [SESSON_SECRET_KEY]
 app.use(
   session({
     key: "weibo.sid", //cookie name默认是'koa.sid'
