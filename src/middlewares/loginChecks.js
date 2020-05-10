@@ -1,5 +1,5 @@
 /**
- * @description 登录验证的中间件
+ * @description 登录验证的中间件,主要用作登录拦截
  * @author SeekingLight
  */
 
