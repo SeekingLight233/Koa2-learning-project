@@ -1,3 +1,4 @@
+const path = require("path")
 const Koa = require("koa")
 const app = new Koa()
 const views = require("koa-views")
@@ -7,6 +8,7 @@ const bodyparser = require("koa-bodyparser")
 const logger = require("koa-logger")
 const session = require("koa-generic-session")
 const redisStore = require("koa-redis")
+const koaStatic = require("koa-static")
 
 const { REDIS_CONF } = require("./conf/db")
 const { isProd } = require("./utils/env")
@@ -17,6 +19,8 @@ const errorViewRouter = require("./routes/view/error")
 const index = require("./routes/index")
 const userViewRouter = require("./routes/view/user")
 const userAPIRouter = require("./routes/api/user")
+const utilsAPIRouter = require("./routes/api/utils")
+
 // error 页面处理
 let onerrorConf = {}
 if (isProd) {
@@ -35,7 +39,8 @@ app.use(
 )
 app.use(json())
 app.use(logger())
-app.use(require("koa-static")(__dirname + "/public"))
+app.use(koaStatic(__dirname + "/public"))
+app.use(koaStatic(path.join(__dirname, "..", "uploadFiles")))
 //注册views文件夹为主要视图
 app.use(
   views(__dirname + "/views", {
@@ -64,6 +69,7 @@ app.use(
 app.use(index.routes(), index.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
+app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 //注意404路由要注册到最底下
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
