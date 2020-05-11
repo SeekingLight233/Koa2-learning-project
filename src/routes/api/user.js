@@ -9,6 +9,7 @@ const {
   login,
   deleteCurUser,
   changeInfo,
+  changePassword,
 } = require("../../controller/user")
 const userValidate = require("../../validator/user")
 const { genValidator } = require("../../middlewares/validator")
@@ -58,6 +59,19 @@ router.patch(
     //controller
     //传一个ctx主要是为了取出当前的信息
     ctx.body = await changeInfo(ctx, { nickName, city, picture })
+  }
+)
+
+//修改密码
+router.patch(
+  "/changePassword",
+  loginCheck,
+  genValidator(userValidate),
+  async (ctx, next) => {
+    const { password, newPassword } = ctx.request.body
+    const { userName } = ctx.session.userInfo
+    //controller
+    ctx.body = await changePassword(userName, password, newPassword)
   }
 )
 module.exports = router

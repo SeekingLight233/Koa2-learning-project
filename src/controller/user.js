@@ -17,8 +17,10 @@ const {
   loginFailInfo,
   deleteUserFailInfo,
   changeInfoFailInfo,
+  changePasswordFailInfo,
 } = require("../model/Errorinfo")
 const doCrypto = require("../utils/cryp")
+
 /**
  * 判断用户名是否存在
  * @param {string} userName 用户名
@@ -75,6 +77,7 @@ async function login(ctx, userName, password) {
   }
   return new SuccessModel()
 }
+
 /**
  * 删除当前用户
  * @param {string} userName
@@ -88,6 +91,7 @@ async function deleteCurUser(userName) {
   //失败
   return new ErrorModel(deleteUserFailInfo)
 }
+
 /**
  * 修改个人信息
  * @param {Object} ctx
@@ -117,10 +121,30 @@ async function changeInfo(ctx, { nickName, city, picture }) {
   //失败
   return new ErrorModel(changeInfoFailInfo)
 }
+
+/**
+ * 修改密码
+ * @param {string} userName
+ * @param {string} password
+ * @param {string} newPassword
+ */
+async function changePassword(userName, password, newPassword) {
+  const result = await updateUser(
+    { newPassword: doCrypto(newPassword) },
+    { userName, password: doCrypto(password) }
+  )
+  if (result) {
+    //成功
+    return new SuccessModel()
+  }
+  //失败
+  return new ErrorModel(changePasswordFailInfo)
+}
 module.exports = {
   isExist,
   register,
   login,
   deleteCurUser,
   changeInfo,
+  changePassword,
 }
