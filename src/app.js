@@ -16,11 +16,10 @@ const { SESSON_SECRET_KEY } = require("./conf/constant")
 
 //路由
 const errorViewRouter = require("./routes/view/error")
-const index = require("./routes/index")
 const userViewRouter = require("./routes/view/user")
 const userAPIRouter = require("./routes/api/user")
 const utilsAPIRouter = require("./routes/api/utils")
-
+const blogViewRouter = require("./routes/view/blog")
 // error 页面处理
 let onerrorConf = {}
 if (isProd) {
@@ -66,10 +65,10 @@ app.use(
 )
 
 // 路由注册
-app.use(index.routes(), index.allowedMethods())
 app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
+app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())
 //注意404路由要注册到最底下
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 
