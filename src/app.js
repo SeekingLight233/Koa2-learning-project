@@ -15,6 +15,7 @@ const { isProd } = require("./utils/env")
 const { SESSON_SECRET_KEY } = require("./conf/constant")
 
 //路由
+const blogHomeAPIRouter = require("./routes/api/blog-home")
 const errorViewRouter = require("./routes/view/error")
 const userViewRouter = require("./routes/view/user")
 const userAPIRouter = require("./routes/api/user")
@@ -69,6 +70,7 @@ app.use(userViewRouter.routes(), userViewRouter.allowedMethods())
 app.use(userAPIRouter.routes(), userAPIRouter.allowedMethods())
 app.use(utilsAPIRouter.routes(), utilsAPIRouter.allowedMethods())
 app.use(blogViewRouter.routes(), blogViewRouter.allowedMethods())
+app.use(blogHomeAPIRouter.routes(), blogHomeAPIRouter.allowedMethods())
 //注意404路由要注册到最底下
 app.use(errorViewRouter.routes(), errorViewRouter.allowedMethods())
 

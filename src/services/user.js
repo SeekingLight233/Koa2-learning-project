@@ -45,6 +45,7 @@ async function createUser({ userName, password, gender = 3, nickName }) {
     nickName: nickName ? nickName : userName,
     gender,
   })
+  console.log(`48:  ${JSON.stringify(result.dataValues)}`)
   return result.dataValues
 }
 
