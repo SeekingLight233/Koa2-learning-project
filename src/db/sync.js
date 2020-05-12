@@ -14,7 +14,7 @@ seq
     console.log("error")
   })
 //force设置为true会清空之前的数据
-seq.sync({ force: true }).then(() => {
+seq.sync({ force: false }).then(() => {
   console.log("sync ok")
   process.exit()
 })
