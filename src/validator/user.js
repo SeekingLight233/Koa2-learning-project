@@ -47,7 +47,7 @@ const SCHEMA = {
 //执行校验
 /**
  * 校验用户数据格式
- * @param {*} data 用户数据
+ * @param {Object} data 用户数据
  */
 function userValidate(data = {}) {
   return validate(SCHEMA, data)
